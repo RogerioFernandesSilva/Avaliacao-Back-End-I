@@ -60,3 +60,24 @@ app.post("/inscreve-se", async (request, response) => {
         mensagen: "Inscrição bem sucedida", usuarioId: usuario.id
     })
 })
+
+// Rota para criar recados
+app.post("recados", (request, response) => {
+    const { titulo, descricao, usuarioId } = request.body
+
+    const usuario = usuarios.find(usuario => usuarioId === usuarioId)
+    if (!usuario) {
+        return response.status(404).json({
+            mensagen: "Usuário não enconstrado."
+        })
+    }
+
+    const novoRecado = {
+        id: uuidv4(), titulo, descricao, usuarioId
+    }
+
+    recados.push(novoRecado)
+    response.status(201).json({
+        mensagen: "Recado criado com sucesso.", novoRecado
+    })
+})
