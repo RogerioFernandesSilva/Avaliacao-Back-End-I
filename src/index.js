@@ -96,3 +96,25 @@ app.get("/recados/:usuarioId", (request, response) => {
     const usuarioRecados = recados.filter(recado => recado.usuarioId === usuarioId)
     response.status(200).json(usuarioRecados)
 })
+
+// Rota para atualizar um recado
+app.put("/recados/:recadoId", (request, response) => {
+    const { recadoId } = request.params
+    const { titulo, descricao } = request.body
+
+    const recadoIndex = recados.findIndex(recado => recadoId === recadoId)
+    if (recadoIndex === -1) {
+        return response.status(404).json({
+            recado: "Recado não encontrado."
+        })
+    }
+    
+    recados[recadoIndex].titulo = titulo
+    recados[recadoIndex].descricao = descricao
+
+    response.status(200).json({
+        mensagen: "Recado atualizado com sucesso."
+    })
+})
+
+//Rota para deletar um recado
