@@ -81,3 +81,18 @@ app.post("recados", (request, response) => {
         mensagen: "Recado criado com sucesso.", novoRecado
     })
 })
+
+//Rota para listar todos os recados de um usuário definido
+app.get("/recados/:usuarioId", (request, response) => {
+    const { usuarioId } = request.params
+    const usuario = usuarios.find(usuario => usuarioId === usuarioId)
+
+    if (!usuario) {
+        return response.status(404).json({
+            mensagen: "Usuário não encontrado."
+        })
+    }
+
+    const usuarioRecados = recados.filter(recado => recado.usuarioId === usuarioId)
+    response.status(200).json(usuarioRecados)
+})
