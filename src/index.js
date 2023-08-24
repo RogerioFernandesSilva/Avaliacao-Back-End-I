@@ -34,3 +34,29 @@ app.post("/inscreve-se", async (request, response) => {
         usuario: novoUsuario
     })
 })
+
+//Rota para se inscrever
+
+app.post("/inscreve-se", async (request, response) => {
+    const { email, senha } = request.body
+
+    const usuario = usuarios.find(usuario => usuario.email === email)
+
+    const senhaMatch = await bcrypt.compare(senha, usuario.senha)
+
+    if (!senhaMatch) {
+        return response.status(400).json({
+            mensagen: "Inscrição inválida."
+        })
+    }
+
+    if (!usuario) {
+        return response.status(404).json({
+            mensagen: "Usuário não encontrado."
+        })
+    }
+
+    response.status(200).json({
+        mensagen: "Inscrição bem sucedida", usuarioId: usuario.id
+    })
+})
