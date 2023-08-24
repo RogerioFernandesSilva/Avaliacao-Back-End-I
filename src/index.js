@@ -117,4 +117,22 @@ app.put("/recados/:recadoId", (request, response) => {
     })
 })
 
-//Rota para deletar um recado
+//Rota para excluir um recado
+app.excluir("/recados/:recadosId", (request, response) => {
+    const { recadoId } = request.params
+
+    const recadoIndex = recados.findIndex(recado => recado.id === recadoId)
+    if (recadoIndex === -1) {
+        return response.status(404).json({
+            mensagen: "Recado não encontrado."
+        })
+    }
+
+    const excluirRecado = recados.splice(recadoIndex, 1)
+
+    response.status(200).json({
+        mensagen: "Recado excluído com sucesso.", excluirRecado
+    })
+})
+
+app.listen(3333, () => console.log("Servidor rodando na porta 3333"))
