@@ -6,18 +6,18 @@
     "uuid": "^9.0.0",
     "uuidv4": "^6.2.13"
   },
-  "name": "temporario-trabalho-final",
+  "name": "avaliacao-back-end-1",
   "version": "1.0.0",
   "main": "sr/index.js",
   "scripts": {
     "test": "localhost:5000"
   },
   "keywords": [],
-  "author": "",
+  "author": "Rogerio-Fernandes",
   "license": "ISC",
   "devDependencies": {
     "nodemon": "^3.0.1",
     "sucrase": "^3.34.0"
   },
-  "description": ""
+  "description": "Avaliacao-Back-End-I"
 }
