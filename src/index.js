@@ -118,7 +118,7 @@ app.put("/recados/:recadoId", (request, response) => {
 })
 
 //Rota para excluir um recado
-app.excluir("/recados/:recadosId", (request, response) => {
+app.delete("/recados/:recadoId", (request, response) => {
     const { recadoId } = request.params
 
     const recadoIndex = recados.findIndex(recado => recado.id === recadoId)
@@ -135,4 +135,4 @@ app.excluir("/recados/:recadosId", (request, response) => {
     })
 })
 
-app.listen(3333, () => console.log("Servidor rodando na porta 3333"))
+app.listen(5000, () => console.log("Servidor rodando na porta 5000"))
