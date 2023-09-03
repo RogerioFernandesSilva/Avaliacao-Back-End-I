@@ -1,0 +1,108 @@
+{
+    "client": "Thunder Client",
+    "collectionName": "Lista de recados",
+    "dateExported": "2023-09-03T21:13:16.851Z",
+    "version": "1.1",
+    "folders": [],
+    "requests": [
+        {
+            "_id": "c0b967a9-cf9f-4784-b162-cc7e64309a5a",
+            "colId": "03905012-f883-4e07-9b9e-5370b370af1d",
+            "containerId": "",
+            "name": "Cadastrar Usuários",
+            "url": "localhost:5000/inscreve-se",
+            "method": "POST",
+            "sortNum": 10000,
+            "created": "2023-08-23T23:11:04.576Z",
+            "modified": "2023-08-29T23:29:57.541Z",
+            "headers": [],
+            "params": [],
+            "body": {
+                "type": "json",
+                "raw": "{\n  \"nome\": \"Rogério\",\n  \"email\": \"rogerio@hotmail.com\",\n  \"senha\": \"$javascript\"\n}",
+                "form": []
+            },
+            "tests": []
+        },
+        {
+            "_id": "a3121a6e-81a7-463a-bd66-44b1c9ba5c83",
+            "colId": "03905012-f883-4e07-9b9e-5370b370af1d",
+            "containerId": "",
+            "name": "Increve-se",
+            "url": "localhost:5000/inscreve-se",
+            "method": "POST",
+            "sortNum": 20000,
+            "created": "2023-08-29T00:12:07.662Z",
+            "modified": "2023-08-29T23:37:44.914Z",
+            "headers": [],
+            "params": [],
+            "body": {
+                "type": "json",
+                "raw": "{\n  \"usuario\": {\n    \"id\": \"48aa7811-3e52-464e-89e6-3e0448ef1dcb\",\n}",
+                "form": []
+            },
+            "tests": []
+        },
+        {
+            "_id": "24aa71a0-c751-4768-9289-d7f022c33d3a",
+            "colId": "03905012-f883-4e07-9b9e-5370b370af1d",
+            "containerId": "",
+            "name": "Criar Recados",
+            "url": "localhost:5000/recados",
+            "method": "POST",
+            "sortNum": 30000,
+            "created": "2023-08-29T00:12:45.007Z",
+            "modified": "2023-08-29T23:43:31.903Z",
+            "headers": [],
+            "params": [],
+            "body": {
+                "type": "json",
+                "raw": "{\n    \"titulo\": \"Agora\"\n    \"descricao\": \"Vamos ver se...\",\n    \"usuario\": {\n    \"id\": \"48aa7811-3e52-464e-89e6-3e0448ef1dcb\"},\n}",
+                "form": []
+            },
+            "tests": []
+        },
+        {
+            "_id": "9742ef91-14e9-4932-84ab-23825927bac2",
+            "colId": "03905012-f883-4e07-9b9e-5370b370af1d",
+            "containerId": "",
+            "name": "Listar recados de usuário definido",
+            "url": "localhost:5000/recados/:usuarioId",
+            "method": "GET",
+            "sortNum": 40000,
+            "created": "2023-08-29T00:13:23.518Z",
+            "modified": "2023-08-29T01:13:08.817Z",
+            "headers": [],
+            "params": [],
+            "tests": []
+        },
+        {
+            "_id": "0261ece9-7861-4397-a889-d183568cfa8d",
+            "colId": "03905012-f883-4e07-9b9e-5370b370af1d",
+            "containerId": "",
+            "name": "Atualizar recado",
+            "url": "localhost:5000/recados/:recadoId",
+            "method": "PUT",
+            "sortNum": 50000,
+            "created": "2023-08-29T00:13:53.975Z",
+            "modified": "2023-08-29T01:13:18.578Z",
+            "headers": [],
+            "params": [],
+            "tests": []
+        },
+        {
+            "_id": "7d97e75e-051d-4880-962b-c0e196d4cbae",
+            "colId": "03905012-f883-4e07-9b9e-5370b370af1d",
+            "containerId": "",
+            "name": "Excluir recado",
+            "url": "localhost:5000/recados/:recadoId",
+            "method": "DELETE",
+            "sortNum": 60000,
+            "created": "2023-08-29T00:14:28.797Z",
+            "modified": "2023-08-29T01:13:28.961Z",
+            "headers": [],
+            "params": [],
+            "tests": []
+        }
+    ]
+}

@@ -1,24 +1,23 @@
+ main
 {
-  "dependencies": {
-    "bcrypt": "^5.1.1",
-    "body-parser": "^1.20.2",
-    "express": "^4.18.2",
-    "uuid": "^9.0.0",
-    "uuidv4": "^6.2.13"
-  },
   "name": "avaliacao-back-end-1",
   "version": "1.0.0",
-  "main": "sr/index.js",
+  "description": "avaliacao-final-back-end-1",
+  "main": "index.js",
   "scripts": {
-    "test": "localhost:5000"
+    "test": "echo \"Error: no test specified\" && exit 1",
     "dev": "nodemon src/index.js"
   },
   "keywords": [],
-  "author": "Rogerio-Fernandes",
+  "author": "Rogerio Fernandes da Silva",
   "license": "ISC",
   "devDependencies": {
     "nodemon": "^3.0.1",
     "sucrase": "^3.34.0"
   },
-  "description": "Avaliacao-Back-End-I"
+  "dependencies": {
+    "bcrypt": "^5.1.1",
+    "express": "^4.18.2",
+    "uuid": "^9.0.0"
+  }
 }

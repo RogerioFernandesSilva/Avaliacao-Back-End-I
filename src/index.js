@@ -2,137 +2,116 @@ import express, { request, response } from 'express'
 import { v4 as uuidv4 } from 'uuid'
 import bcrypt from 'bcrypt'
 
-const app = express()
+const app = express();
+const port = 5000;
 
-const usuarios = []
-const recados = []
+app.use(json());
 
-app.use(express.json())
+const users = [];
+const notes = [];
 
-// Cadastrar Usuários
-app.post("/inscreve-se", async (request, response) => {
-    const { nome, email, senha } = request.body
+// Criação de conta
+app.post('/signup', (req, res) => {
+  const { name, email, password } = req.body;
 
-    // Verifica se há usuário com esse e-mail cadastrado
-    const emailJaRegistrado = usuarios.find(usuario => usuario.email === email)
+  if (users.some(user => user.email === email)) {
+    return res.status(400).json({ message: 'E-mail já existe.' });
+  }
 
-    if (emailJaRegistrado) {
-        return response.status(400).json({
-            mensagen: "E-mail já cadastrado."
-        })
-    }
-    // Encriptando a senha para maior segurança
-    const hashedSenha = await bcrypt.hash(senha, 10)
+  const newUser = { id: v4(), name, email, password };
+  users.push(newUser);
+
+  res.status(201).json({ message: 'Usuário criado com sucesso' });
+});
+
+// Encriptando a senha para maior segurança
+//const hashedPassword = await bcrypt.hash(password, 10)
     
-    // senha salva enciptada
-    const novoUsuario = { id: uuidv4(), nome, email, senha: hashedSenha}
+// senha salva enciptada
+//const newUser = { id: uuidv4(), nome, email, password: hashedPassword}
 
-    usuarios.push(novoUsuario)
+//users.push(newUser)
 
-    response.status(201).json({
-        mensagen: "Conta criada com sucesso.",
-        usuario: novoUsuario
-    })
-})
+//response.status(201).json({
+  //  mensagen: "Conta criada com sucesso.",
+  //  user: newUser
+//})
 
-//Rota para se inscrever
+// Login
+app.post('/login', (req, res) => {
+  const { email, password } = req.body;
 
-app.post("/inscreve-se", async (request, response) => {
-    const { email, senha } = request.body
+  const user = users.find(user => user.email === email && user.password === password);
 
-    const usuario = usuarios.find(usuario => usuario.email === email)
+  if (!user) {
+    return res.status(401).json({ message: 'Credenciais inválidas' });
+  }
 
-    const senhaMatch = await bcrypt.compare(senha, usuario.senha)
+  res.status(200).json({ message: 'Usuário Logado.', userId: user.id });
+});
 
-    if (!senhaMatch) {
-        return response.status(400).json({
-            mensagen: "Inscrição inválida."
-        })
-    }
+// CRUD de recados
 
-    if (!usuario) {
-        return response.status(404).json({
-            mensagen: "Usuário não encontrado."
-        })
-    }
+// Create
+app.post('/notes', (req, res) => {
+  const { userId, title, description } = req.body;
 
-    response.status(200).json({
-        mensagen: "Inscrição bem sucedida", usuarioId: usuario.id
-    })
-})
+  const user = users.find(user => user.id === userId);
 
-// Rota para criar recados
-app.post("recados", (request, response) => {
-    const { titulo, descricao, usuarioId } = request.body
+  if (!user) {
+    return res.status(404).json({ message: 'Usuário não encontrado.' });
+  }
 
-    const usuario = usuarios.find(usuario => usuarioId === usuarioId)
-    if (!usuario) {
-        return response.status(404).json({
-            mensagen: "Usuário não enconstrado."
-        })
-    }
+  const newNote = { id: v4(), userId, title, description };
+  notes.push(newNote);
 
-    const novoRecado = {
-        id: uuidv4(), titulo, descricao, usuarioId
-    }
+  res.status(201).json({ message: 'Nota criada com sucesso.', noteId: newNote.id });
+});
 
-    recados.push(novoRecado)
-    response.status(201).json({
-        mensagen: "Recado criado com sucesso.", novoRecado
-    })
-})
+// Read
+app.get('/notes/:noteId', (req, res) => {
+  const noteId = req.params.noteId;
+  const note = notes.find(note => note.id === noteId);
 
-//Rota para listar todos os recados de um usuário definido
-app.get("/recados/:usuarioId", (request, response) => {
-    const { usuarioId } = request.params
-    const usuario = usuarios.find(usuario => usuarioId === usuarioId)
+  if (!note) {
+    return res.status(404).json({ message: 'Nota não encontrada.' });
+  }
 
-    if (!usuario) {
-        return response.status(404).json({
-            mensagen: "Usuário não encontrado."
-        })
-    }
+  res.status(200).json(note);
+});
 
-    const usuarioRecados = recados.filter(recado => recado.usuarioId === usuarioId)
-    response.status(200).json(usuarioRecados)
-})
+// Update
+app.put('/notes/:noteId', (req, res) => {
+  const noteId = req.params.noteId;
+  const { title, description } = req.body;
 
-// Rota para atualizar um recado
-app.put("/recados/:recadoId", (request, response) => {
-    const { recadoId } = request.params
-    const { titulo, descricao } = request.body
+  const note = notes.find(note => note.id === noteId);
 
-    const recadoIndex = recados.findIndex(recado => recadoId === recadoId)
-    if (recadoIndex === -1) {
-        return response.status(404).json({
-            recado: "Recado não encontrado."
-        })
-    }
-    
-    recados[recadoIndex].titulo = titulo
-    recados[recadoIndex].descricao = descricao
+  if (!note) {
+    return res.status(404).json({ message: 'Nota não encontrada.' });
+  }
 
-    response.status(200).json({
-        mensagen: "Recado atualizado com sucesso."
-    })
-})
+  note.title = title;
+  note.description = description;
 
-//Rota para excluir um recado
-app.delete("/recados/:recadoId", (request, response) => {
-    const { recadoId } = request.params
+  res.status(200).json({ message: 'Nota atualizada com sucesso.' });
+});
 
-    const recadoIndex = recados.findIndex(recado => recado.id === recadoId)
-    if (recadoIndex === -1) {
-        return response.status(404).json({
-            mensagen: "Recado não encontrado."
-        })
-    }
+// Delete
+app.delete('/notes/:noteId', (req, res) => {
+  const noteId = req.params.noteId;
 
-    const excluirRecado = recados.splice(recadoIndex, 1)
+  const noteIndex = notes.findIndex(note => note.id === noteId);
 
-    response.status(200).json({
-        mensagen: "Recado excluído com sucesso.", excluirRecado
-    })
-})
+  if (noteIndex === -1) {
+    return res.status(404).json({ message: 'Nota não encontrada.' });
+  }
 
-app.listen(5000, () => console.log("Servidor rodando na porta 5000"))
+  notes.splice(noteIndex, 1);
+
+  res.status(200).json({ message: 'Nota excluída com sucesso.' });
+});
+
+app.listen(port, () => {
+  console.log(`O servidor está escutando na porta ${port}`);
+});
