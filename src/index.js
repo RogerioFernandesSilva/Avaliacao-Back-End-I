@@ -25,17 +25,17 @@ app.post('/signup', (req, res) => {
 });
 
 // Encriptando a senha para maior segurança
-//const hashedPassword = await bcrypt.hash(password, 10)
+const hashedPassword = await bcrypt.hash(password, 10)
     
 // senha salva enciptada
-//const newUser = { id: uuidv4(), nome, email, password: hashedPassword}
+const newUser = { id: uuidv4(), nome, email, password: hashedPassword}
 
 //users.push(newUser)
 
-//response.status(201).json({
-  //  mensagen: "Conta criada com sucesso.",
-  //  user: newUser
-//})
+response.status(201).json({
+    mensagen: "Conta criada com sucesso.",
+    user: newUser
+})
 
 // Login
 app.post('/login', (req, res) => {
